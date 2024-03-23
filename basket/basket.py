@@ -23,7 +23,6 @@ class Basket():
         Adding and updating the users basket session data
         """
         product_id = str(product.id)
-
         if product_id in self.basket:
             self.basket[product_id]['qty'] = qty
         else:
@@ -61,6 +60,7 @@ class Basket():
         product_id = str(product)
         if product_id in self.basket:
             self.basket[product_id]['qty'] = qty
+        
         self.save()
 
     def get_subtotal_price(self):
