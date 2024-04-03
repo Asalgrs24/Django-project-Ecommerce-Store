@@ -1,7 +1,7 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8" />
     <title>{% block title %}BookStore{% endblock %}</title>
@@ -50,6 +50,7 @@
                             </ul>
                         </li>
                     </ul>
+
                     <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
                         aria-label="Toggle navigation">
@@ -64,7 +65,7 @@
                     </button>
 
                     {% if user.is_authenticated %}
-                    <a type="button" role="button" href=""
+                    <a type="button" role="button" href="#"
                         class="btn btn-outline-secondary border-0 basket-btn">
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
@@ -77,7 +78,7 @@
                         <span class="fs15 fw500">Logout</span>
                     </a>
                     {% else %}
-                    <a type="button" role="button" href=""
+                    <a type="button" role="button" href="#"
                         class="btn btn-outline-secondary border-0 basket-btn">
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
@@ -91,8 +92,7 @@
                     </a>
                     {% endif %}
 
-
-                    <a type="button" role="button" href=""
+                    <a type="button" role="button" href="#"
                         class="btn btn-outline-secondary border-0 basket-btn">
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
@@ -125,10 +125,10 @@
                         </div>
                         <span class="fs15 fw500">Basket</span>
                     </a>
-                </div>
-                <div class="d-md-none d-lg-none d-xl-none">
+                  </div>
+                  <div class="d-md-none d-lg-none d-xl-none">
                     <div class="collapse navbar-collapse" id="navbarCollapse">
-                        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                      <ul class="navbar-nav me-auto mb-2 mb-md-0">
                             <li><a class="dropdown-item" href="{% url "store:product_all" %}">All</a></li>
                             {% for c in categories %}
                             <li {% if category.slug == c.slug %}class="selected" {% endif %}>
@@ -146,9 +146,7 @@
             </div>
         </nav>
     </header>
-
     <div id="content">{% block content %} {% endblock %}</div>
-
     <footer class="container py-5 footer">
         <hr>
         <div class="row pt-4">
@@ -201,5 +199,4 @@
         </div>
     </footer>
 </body>
-
 </html>
