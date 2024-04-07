@@ -8,6 +8,7 @@
         "productid",
         "productqty",
         "skey",
+        "uidb",
         "yourdomain"
     ]
 }
