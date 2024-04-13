@@ -1,7 +1,9 @@
 from django import forms
-from .models import UserBase
-from django.contrib.auth.forms import (AuthenticationForm)
+from django.contrib.auth.forms import (AuthenticationForm, PasswordResetForm,
+                                       SetPasswordForm)
 
+from .models import UserBase
+ 
 
 class UserLoginForm(AuthenticationForm):
 
@@ -14,6 +16,7 @@ class UserLoginForm(AuthenticationForm):
             'id': 'login-pwd',
         }
     ))
+
 
 class RegistrationForm(forms.ModelForm):
 
@@ -34,7 +37,7 @@ class RegistrationForm(forms.ModelForm):
         r = UserBase.objects.filter(user_name=user_name)
         if r.count():
             raise forms.ValidationError("Username already exists")
-        return user_name   # for creating validation checks
+        return user_name
 
     def clean_password2(self):
         cd = self.cleaned_data
@@ -59,23 +62,49 @@ class RegistrationForm(forms.ModelForm):
             {'class': 'form-control mb-3', 'placeholder': 'Password'})
         self.fields['password2'].widget.attrs.update(
             {'class': 'form-control', 'placeholder': 'Repeat Password'})
-            
+
+
+class PwdResetForm(PasswordResetForm):
+
+    email = forms.EmailField(max_length=254, widget=forms.TextInput(
+        attrs={'class': 'form-control mb-3', 'placeholder': 'Email', 'id': 'form-email'}))
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        u = UserBase.objects.filter(email=email)
+        if not u:
+            raise forms.ValidationError(
+                'Unfortunately we can not find that email address')
+        return email
+
+
+class PwdResetConfirmForm(SetPasswordForm):
+    new_password1 = forms.CharField(
+        label='New password', widget=forms.PasswordInput(
+            attrs={'class': 'form-control mb-3', 'placeholder': 'New Password', 'id': 'form-new-pass'}))
+    new_password2 = forms.CharField(
+        label='Repeat password', widget=forms.PasswordInput(
+            attrs={'class': 'form-control mb-3', 'placeholder': 'New Password', 'id': 'form-new-pass2'}))
+ 
 class UserEditForm(forms.ModelForm):
 
     email = forms.EmailField(
         label='Account email (can not be changed)', max_length=200, widget=forms.TextInput(
             attrs={'class': 'form-control mb-3', 'placeholder': 'email', 'id': 'form-email', 'readonly': 'readonly'}))
 
+    user_name = forms.CharField(
+        label='Firstname', min_length=4, max_length=50, widget=forms.TextInput(
+            attrs={'class': 'form-control mb-3', 'placeholder': 'Username', 'id': 'form-firstname', 'readonly': 'readonly'}))
 
     first_name = forms.CharField(
         label='Username', min_length=4, max_length=50, widget=forms.TextInput(
-            attrs={'class': 'form-control mb-3', 'placeholder': 'Firstname', 'id': 'form-firstname'}))
+            attrs={'class': 'form-control mb-3', 'placeholder': 'Firstname', 'id': 'form-lastname'}))
 
     class Meta:
         model = UserBase
-        fields = ('email', 'first_name',)
+        fields = ('email', 'user_name', 'first_name',)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['first_name'].required = True
+        self.fields['user_name'].required = True
         self.fields['email'].required = True
