@@ -5,12 +5,14 @@
         "baskettotal",
         "ewxi",
         "newpass",
+        "orderplaced",
         "overrided",
         "productid",
         "productqty",
         "pwdreset",
         "skey",
         "uidb",
+        "userid",
         "yourdomain"
     ]
 }
