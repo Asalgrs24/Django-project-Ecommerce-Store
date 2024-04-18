@@ -7,7 +7,7 @@ SECRET_KEY = '3xk*)i0x#k$btl=(6q)te!19=mp6d)lm1+zl#ts4ewxi3-!vm_'
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['yourdomain.com', '127.0.0.1']
+ALLOWED_HOSTS = ['yourdomain.com', '127.0.0.1', 'localhost']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -19,7 +19,7 @@ INSTALLED_APPS = [
     'store',
     'basket',
     'account',
-    'payment',
+    'orders',
 ]
 
 MIDDLEWARE = [
@@ -37,7 +37,7 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates/base.html'],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -105,3 +105,6 @@ LOGIN_URL = '/account/login/'
 
 # Email setting
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+PUBLISHABLE_KEY = 'pk_test_51P5ohqSEtVxGloy2wJxgwyNOuHSbJJYrsYTb69N1MHcH7WhkarUD94yK4xpawgDn6V9wBefannd4ls7MaluvZTvE00aG3szDAd'
+SECRET_KEY = 'sk_test_51P5ohqSEtVxGloy2GGS26Dmr0MJkOrPIL7Ij06jlw9W9Pk0dPKPU2Sh4ejtsY4n8J1uRV8ZIQta62pCoMOrTcnC500AB5Aqdyy'
