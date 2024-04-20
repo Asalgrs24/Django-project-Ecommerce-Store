@@ -4,9 +4,11 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
-from django.utils.encoding import force_bytes, force_text
+from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+
 from orders.views import user_orders
+
 from .forms import RegistrationForm, UserEditForm
 from .models import UserBase
 from .tokens import account_activation_token
@@ -16,7 +18,7 @@ from .tokens import account_activation_token
 def dashboard(request):
     orders = user_orders(request)
     return render(request,
-                  'account/user/dashboard.html',
+                  'account/dashboard/dashboard.html',
                   {'section': 'profile', 'orders': orders})
 
 
@@ -31,7 +33,7 @@ def edit_details(request):
         user_form = UserEditForm(instance=request.user)
 
     return render(request,
-                  'account/user/edit_details.html', {'user_form': user_form})
+                  'account/dashboard/edit_details.html', {'user_form': user_form})
 
 
 @login_required
@@ -65,7 +67,7 @@ def account_register(request):
                 'token': account_activation_token.make_token(user),
             })
             user.email_user(subject=subject, message=message)
-            return HttpResponse('registered succesfully and activation sent')
+            return render(request, 'account/registration/register_email_confirm.html', {'form': registerForm})
     else:
         registerForm = RegistrationForm()
     return render(request, 'account/registration/register.html', {'form': registerForm})
@@ -73,7 +75,7 @@ def account_register(request):
 
 def account_activate(request, uidb64, token):
     try:
-        uid = force_text(urlsafe_base64_decode(uidb64))
+        uid = force_str(urlsafe_base64_decode(uidb64))
         user = UserBase.objects.get(pk=uid)
     except(TypeError, ValueError, OverflowError, user.DoesNotExist):
         user = None
