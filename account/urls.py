@@ -4,7 +4,6 @@ from django.views.generic import TemplateView
 from . import views
 from .forms import (PwdResetConfirmForm, PwdResetForm, UserLoginForm)
 
-
 app_name = 'account'
 
 urlpatterns = [
@@ -31,4 +30,5 @@ urlpatterns = [
     path('profile/edit/', views.edit_details, name='edit_details'),
     path('profile/delete_user/', views.delete_user, name='delete_user'),
     path('profile/delete_confirm/', TemplateView.as_view(template_name="account/dashboard/delete_confirm.html"), name='delete_confirmation'),
+    path("wishlist/add_to_wishlist/<int:id>", views.add_to_wishlist, name="user_wishlist"),
 ]

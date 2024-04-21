@@ -1,8 +1,6 @@
 from django import forms
-from django.contrib.auth.forms import (AuthenticationForm, PasswordResetForm,
-                                       SetPasswordForm)
+from django.contrib.auth.forms import (AuthenticationForm, PasswordResetForm, SetPasswordForm)
 from .models import UserBase
-
 
 class UserLoginForm(AuthenticationForm):
     username = forms.CharField(widget=forms.TextInput(
@@ -30,7 +28,7 @@ class RegistrationForm(forms.ModelForm):
         model = UserBase
         fields = ('user_name', 'email',)
 
-    def clean_username(self):
+    def clean_user_name(self):
         user_name = self.cleaned_data['user_name'].lower()
         r = UserBase.objects.filter(user_name=user_name)
         if r.count():
@@ -72,19 +70,18 @@ class PwdResetForm(PasswordResetForm):
         u = UserBase.objects.filter(email=email)
         if not u:
             raise forms.ValidationError(
-                'Unfortunatley we can not find that email address')
+                'Unfortunately we can not find that email address')
         return email
 
 
 class PwdResetConfirmForm(SetPasswordForm):
     new_password1 = forms.CharField(
         label='New password', widget=forms.PasswordInput(
-            attrs={'class': 'form-control mb-3', 'placeholder': 'New Password', 'id': 'form-newpass'}))
+            attrs={'class': 'form-control mb-3', 'placeholder': 'New Password', 'id': 'form-new-pass'}))
     new_password2 = forms.CharField(
         label='Repeat password', widget=forms.PasswordInput(
             attrs={'class': 'form-control mb-3', 'placeholder': 'New Password', 'id': 'form-new-pass2'}))
-
-
+ 
 class UserEditForm(forms.ModelForm):
 
     email = forms.EmailField(
